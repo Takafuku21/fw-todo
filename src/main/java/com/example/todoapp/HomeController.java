@@ -2,11 +2,13 @@ package com.example.todoapp;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -39,7 +41,10 @@ public class HomeController {
     }
 
     @PostMapping("/todos/confirm")
-    public String confirmTodo(@ModelAttribute Todo todo, Model model) {
+    public String confirmTodo(@Valid @ModelAttribute Todo todo, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "create";
+        }
         model.addAttribute("todo", todo);
         return "create-confirm";
     }
@@ -70,7 +75,12 @@ public class HomeController {
     }
 
     @PostMapping("/todos/{id}/confirm")
-    public String confirmEditTodo(@PathVariable Long id, @ModelAttribute Todo todo, Model model) {
+    public String confirmEditTodo(@PathVariable Long id, @Valid @ModelAttribute Todo todo,
+            BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("id", id);
+            return "edit";
+        }
         model.addAttribute("todo", todo);
         model.addAttribute("id", id);
         return "edit-confirm";
