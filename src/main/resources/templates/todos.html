@@ -13,6 +13,28 @@
         <p class="flash" th:if="${message}" th:text="${message}"></p>
         <h1 class="page-title">やること一覧</h1>
 
+        <form class="search-bar" th:action="@{/todos}" method="get">
+            <div class="form-row">
+                <label class="form-label" for="keyword">やること</label>
+                <input class="form-input" id="keyword" type="text" name="keyword" th:value="${keyword}">
+            </div>
+            <div class="form-row">
+                <label class="form-label" for="category">ジャンル</label>
+                <select class="form-input" id="category" name="category">
+                    <option value="すべて" th:selected="${category == 'すべて'}">すべて</option>
+                    <option value="デザイン" th:selected="${category == 'デザイン'}">デザイン</option>
+                    <option value="マーケティング" th:selected="${category == 'マーケティング'}">マーケティング</option>
+                    <option value="プログラミング" th:selected="${category == 'プログラミング'}">プログラミング</option>
+                    <option value="資格" th:selected="${category == '資格'}">資格</option>
+                    <option value="就職活動" th:selected="${category == '就職活動'}">就職活動</option>
+                </select>
+            </div>
+            <input type="hidden" name="order" th:value="${order}">
+            <button class="btn" type="submit">絞り込む</button>
+            <a class="link" th:href="@{/todos(keyword=${keyword}, category=${category == 'すべて' ? null : category}, order='asc')}">期限が近い順</a>
+            <a class="link" th:href="@{/todos(keyword=${keyword}, category=${category == 'すべて' ? null : category}, order='desc')}">期限が遠い順</a>
+        </form>
+
         <p th:if="${#lists.isEmpty(todos)}">まだ1件も登録されていません</p>
 
         <p><a class="link" th:href="@{/todos/new}">新規登録</a></p>
