@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>テスト仕様書</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 12px; color: #222; font-family: sans-serif; font-size: 11px; }
+    h1 { margin: 0 0 8px; font-size: 18px; }
+    .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    button { padding: 6px 12px; font-size: 12px; cursor: pointer; }
+    table { width: 100%; table-layout: fixed; border-collapse: collapse; }
+    col:nth-child(1) { width: 5%; } col:nth-child(2) { width: 20%; }
+    col:nth-child(3) { width: 15%; } col:nth-child(4) { width: 25%; }
+    col:nth-child(5) { width: 10%; } col:nth-child(6) { width: 25%; }
+    th, td { border: 1px solid #777; padding: 3px 4px; vertical-align: top; overflow-wrap: anywhere; }
+    th { background: #eee; text-align: left; }
+    td:first-child { text-align: center; }
+    .result { white-space: nowrap; }
+    .result label { display: inline-block; margin-right: 3px; }
+    textarea { display: block; width: 100%; min-height: 32px; resize: vertical; font: inherit; }
+    @media print {
+      @page { size: landscape; margin: 8mm; }
+      body { padding: 0; font-size: 9px; }
+      h1 { font-size: 15px; }
+      .no-print { display: none !important; }
+      th, td { padding: 2px 3px; }
+      textarea { height: auto !important; min-height: 0; resize: none; overflow: visible; border: 0; padding: 0; }
+      tr { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <h1>テスト仕様書</h1>
+    <button class="no-print" type="button" onclick="window.print()">PDFで保存</button>
+  </div>
+  <table>
+    <colgroup><col><col><col><col><col><col></colgroup>
+    <thead><tr><th>番号</th><th>確かめること</th><th>入れる値</th><th>期待する結果</th><th>結果</th><th>備考/NG</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>開始前の登録件数をA5M2で確認する</td><td>操作なし</td><td>A5M2のtodosテーブルに5行表示されます。</td><td class="result"><label><input type="radio" name="r1" value="OK">OK</label><label><input type="radio" name="r1" value="NG">NG</label></td><td><textarea aria-label="1 備考/NG"></textarea></td></tr>
+      <tr><td>2</td><td>一覧画面に登録内容と操作が表示される</td><td>/todos を開く</td><td>やること・ジャンル・優先度・期限・状態・編集・削除と、検索欄・ジャンル欄・絞り込む・並び替え2本・新規登録が表示されます。</td><td class="result"><label><input type="radio" name="r2" value="OK">OK</label><label><input type="radio" name="r2" value="NG">NG</label></td><td><textarea aria-label="2 備考/NG"></textarea></td></tr>
+      <tr><td>3</td><td>一覧の優先度と完了状態が表示用の言葉になる</td><td>優先度1/2/3、完了1/0の登録行</td><td>優先度は高・中・低、状態は完了・未完了と表示されます。</td><td class="result"><label><input type="radio" name="r3" value="OK">OK</label><label><input type="radio" name="r3" value="NG">NG</label></td><td><textarea aria-label="3 備考/NG"></textarea></td></tr>
+      <tr><td>4</td><td>登録画面の入力欄と初期状態を確認する</td><td>「新規登録」</td><td>やること・メモ・ジャンル・優先度・期限の欄が表示され、ジャンルと優先度は空欄です。</td><td class="result"><label><input type="radio" name="r4" value="OK">OK</label><label><input type="radio" name="r4" value="NG">NG</label></td><td><textarea aria-label="4 備考/NG"></textarea></td></tr>
+      <tr><td>5</td><td>登録画面のジャンル選択肢を確認する</td><td>ジャンル欄を開く</td><td>デザイン・マーケティング・プログラミング・資格・就職活動の5つが選べます。</td><td class="result"><label><input type="radio" name="r5" value="OK">OK</label><label><input type="radio" name="r5" value="NG">NG</label></td><td><textarea aria-label="5 備考/NG"></textarea></td></tr>
+      <tr><td>6</td><td>登録画面の優先度選択肢を確認する</td><td>優先度欄を開く</td><td>高・中・低の3つが選べます。</td><td class="result"><label><input type="radio" name="r6" value="OK">OK</label><label><input type="radio" name="r6" value="NG">NG</label></td><td><textarea aria-label="6 備考/NG"></textarea></td></tr>
+      <tr><td>7</td><td>登録画面から一覧へ戻る</td><td>「一覧へ」</td><td>/todos の一覧画面が表示されます。</td><td class="result"><label><input type="radio" name="r7" value="OK">OK</label><label><input type="radio" name="r7" value="NG">NG</label></td><td><textarea aria-label="7 備考/NG"></textarea></td></tr>
+      <tr><td>8</td><td>必須のやることを空にして登録を止める</td><td>やること空欄で「確認する」</td><td>登録画面に留まり、やること欄の下に「やることを入力してください」と表示されます。</td><td class="result"><label><input type="radio" name="r8" value="OK">OK</label><label><input type="radio" name="r8" value="NG">NG</label></td><td><textarea aria-label="8 備考/NG"></textarea></td></tr>
+      <tr><td>9</td><td>必須のジャンルを未選択にして登録を止める</td><td>ジャンル未選択で「確認する」</td><td>登録画面に留まり、ジャンル欄の下に「ジャンルを選んでください」と表示されます。</td><td class="result"><label><input type="radio" name="r9" value="OK">OK</label><label><input type="radio" name="r9" value="NG">NG</label></td><td><textarea aria-label="9 備考/NG"></textarea></td></tr>
+      <tr><td>10</td><td>必須の優先度を未選択にして登録を止める</td><td>優先度未選択で「確認する」</td><td>登録画面に留まり、優先度欄の下に「優先度を選んでください」と表示されます。</td><td class="result"><label><input type="radio" name="r10" value="OK">OK</label><label><input type="radio" name="r10" value="NG">NG</label></td><td><textarea aria-label="10 備考/NG"></textarea></td></tr>
+      <tr><td>11</td><td>半角空白だけのやることを登録できない</td><td>やることに半角スペースだけを入れて送信</td><td>登録画面に留まり、やること欄の下に「やることを入力してください」と表示されます。</td><td class="result"><label><input type="radio" name="r11" value="OK">OK</label><label><input type="radio" name="r11" value="NG">NG</label></td><td><textarea aria-label="11 備考/NG"></textarea></td></tr>
+      <tr><td>12</td><td>全角空白だけのやることを登録できない</td><td>やることに全角スペースだけを入れて送信</td><td>登録画面に留まり、やること欄の下に「やることを入力してください」と表示されます。</td><td class="result"><label><input type="radio" name="r12" value="OK">OK</label><label><input type="radio" name="r12" value="NG">NG</label></td><td><textarea aria-label="12 備考/NG"></textarea></td></tr>
+      <tr><td>13</td><td>やることを256文字にして登録を止める</td><td>256文字のやること</td><td>登録画面に留まり、やること欄の下に「やることは255文字以内で入力してください」と表示されます。</td><td class="result"><label><input type="radio" name="r13" value="OK">OK</label><label><input type="radio" name="r13" value="NG">NG</label></td><td><textarea aria-label="13 備考/NG"></textarea></td></tr>
+      <tr><td>14</td><td>メモを256文字にして登録を止める</td><td>メモに256文字、ほかの必須欄は入力</td><td>登録画面に留まり、メモ欄の下に「メモは255文字以内で入力してください」と表示されます。</td><td class="result"><label><input type="radio" name="r14" value="OK">OK</label><label><input type="radio" name="r14" value="NG">NG</label></td><td><textarea aria-label="14 備考/NG"></textarea></td></tr>
+      <tr><td>15</td><td>255文字のやることを確認画面へ進める</td><td>やること255文字、ほかの必須欄入力</td><td>入力エラーが出ず、確認画面に255文字のやることが表示されます。</td><td class="result"><label><input type="radio" name="r15" value="OK">OK</label><label><input type="radio" name="r15" value="NG">NG</label></td><td><textarea aria-label="15 備考/NG"></textarea></td></tr>
+      <tr><td>16</td><td>255文字のメモを確認画面へ進める</td><td>メモ255文字、ほかの必須欄入力</td><td>入力エラーが出ず、確認画面に255文字のメモが表示されます。</td><td class="result"><label><input type="radio" name="r16" value="OK">OK</label><label><input type="radio" name="r16" value="NG">NG</label></td><td><textarea aria-label="16 備考/NG"></textarea></td></tr>
+      <tr><td>17</td><td>登録画面で確認操作をすると登録確認画面へ進む</td><td>必須3項目と任意欄を入力して「確認する」</td><td>登録確認画面に進み、入力した内容が入力欄ではなく文字で表示されます。</td><td class="result"><label><input type="radio" name="r17" value="OK">OK</label><label><input type="radio" name="r17" value="NG">NG</label></td><td><textarea aria-label="17 備考/NG"></textarea></td></tr>
+      <tr><td>18</td><td>空の任意欄を登録確認画面で表示する</td><td>メモと期限を空欄にして確認</td><td>登録確認画面でメモと期限に「（入力なし）」と表示されます。</td><td class="result"><label><input type="radio" name="r18" value="OK">OK</label><label><input type="radio" name="r18" value="NG">NG</label></td><td><textarea aria-label="18 備考/NG"></textarea></td></tr>
+      <tr><td>19</td><td>登録確認から書き直す画面へ戻る</td><td>「書き直す」</td><td>登録画面に戻り、直前に入力した値が欄に残っています。</td><td class="result"><label><input type="radio" name="r19" value="OK">OK</label><label><input type="radio" name="r19" value="NG">NG</label></td><td><textarea aria-label="19 備考/NG"></textarea></td></tr>
+      <tr><td>20</td><td>テスト用の1件目を登録する</td><td>やること SPEC-テスト課題A／メモ test-note-A／プログラミング／高／2026-12-01</td><td>「登録する」のあと一覧にSPEC-テスト課題Aが表示され、上部に「登録しました」と表示されます。</td><td class="result"><label><input type="radio" name="r20" value="OK">OK</label><label><input type="radio" name="r20" value="NG">NG</label></td><td><textarea aria-label="20 備考/NG"></textarea></td></tr>
+      <tr><td>21</td><td>A5M2でtodosの列定義と1件目の保存値を確認する</td><td>テーブル定義とSPEC-テスト課題Aの行を参照</td><td>A5M2で仕様書どおりの9列・型・空欄可否と、1件目の入力値および自動設定されたid・created_at・updated_atが確認できます。</td><td class="result"><label><input type="radio" name="r21" value="OK">OK</label><label><input type="radio" name="r21" value="NG">NG</label></td><td><textarea aria-label="21 備考/NG"></textarea></td></tr>
+      <tr><td>22</td><td>テスト用の2件目を登録する</td><td>SPEC-テスト応募B／メモ空欄／就職活動／中／2026-11-20</td><td>一覧にSPEC-テスト応募Bが表示され、上部に「登録しました」と表示されます。</td><td class="result"><label><input type="radio" name="r22" value="OK">OK</label><label><input type="radio" name="r22" value="NG">NG</label></td><td><textarea aria-label="22 備考/NG"></textarea></td></tr>
+      <tr><td>23</td><td>テスト用の3件目を登録する</td><td>SPEC-テスト資格C／メモ空欄／資格／低／2026-12-15</td><td>一覧にSPEC-テスト資格Cが表示され、上部に「登録しました」と表示されます。</td><td class="result"><label><input type="radio" name="r23" value="OK">OK</label><label><input type="radio" name="r23" value="NG">NG</label></td><td><textarea aria-label="23 備考/NG"></textarea></td></tr>
+      <tr><td>24</td><td>A5M2で登録後の既定値と自動採番を確認する</td><td>3件の追加行を参照</td><td>A5M2で各idが自動採番され、未指定のcompletedは未完了として保存され、created_atとupdated_atに日時が入ります。</td><td class="result"><label><input type="radio" name="r24" value="OK">OK</label><label><input type="radio" name="r24" value="NG">NG</label></td><td><textarea aria-label="24 備考/NG"></textarea></td></tr>
+      <tr><td>25</td><td>追加した3件を名前の一部で絞り込む</td><td>キーワード SPEC- を入力して「絞り込む」</td><td>titleにSPEC-を含む3件だけが一覧に表示され、絞り込み条件がアドレスに付きます。</td><td class="result"><label><input type="radio" name="r25" value="OK">OK</label><label><input type="radio" name="r25" value="NG">NG</label></td><td><textarea aria-label="25 備考/NG"></textarea></td></tr>
+      <tr><td>26</td><td>名前の絞り込みとジャンルの絞り込みを同時に使う</td><td>キーワード SPEC-、ジャンル 資格</td><td>SPEC-を含みジャンルが資格と一致するSPEC-テスト資格Cだけが表示されます。</td><td class="result"><label><input type="radio" name="r26" value="OK">OK</label><label><input type="radio" name="r26" value="NG">NG</label></td><td><textarea aria-label="26 備考/NG"></textarea></td></tr>
+      <tr><td>27</td><td>ジャンルの「すべて」で絞り込まない</td><td>キーワード SPEC-、ジャンル すべて</td><td>SPEC-を含む3件が一覧に表示されます。</td><td class="result"><label><input type="radio" name="r27" value="OK">OK</label><label><input type="radio" name="r27" value="NG">NG</label></td><td><textarea aria-label="27 備考/NG"></textarea></td></tr>
+      <tr><td>28</td><td>絞り込み結果が0件のときの文を確認する</td><td>キーワード SPEC-該当なし</td><td>一覧に「まだ1件も登録されていません」と表示されます。</td><td class="result"><label><input type="radio" name="r28" value="OK">OK</label><label><input type="radio" name="r28" value="NG">NG</label></td><td><textarea aria-label="28 備考/NG"></textarea></td></tr>
+      <tr><td>29</td><td>並び順を指定しない初回表示を確認する</td><td>キーワード SPEC-、order指定なし</td><td>期限が近い順でSPEC-テスト応募B・SPEC-テスト課題A・SPEC-テスト資格Cの順に表示され、検索条件がアドレスに付きます。</td><td class="result"><label><input type="radio" name="r29" value="OK">OK</label><label><input type="radio" name="r29" value="NG">NG</label></td><td><textarea aria-label="29 備考/NG"></textarea></td></tr>
+      <tr><td>30</td><td>期限が近い順に並び替える</td><td>キーワード SPEC-、期限が近い順</td><td>SPEC-テスト応募B・SPEC-テスト課題A・SPEC-テスト資格Cの順に表示されます。</td><td class="result"><label><input type="radio" name="r30" value="OK">OK</label><label><input type="radio" name="r30" value="NG">NG</label></td><td><textarea aria-label="30 備考/NG"></textarea></td></tr>
+      <tr><td>31</td><td>期限が遠い順に並び替える</td><td>キーワード SPEC-、期限が遠い順</td><td>SPEC-テスト資格C・SPEC-テスト課題A・SPEC-テスト応募Bの順に表示されます。</td><td class="result"><label><input type="radio" name="r31" value="OK">OK</label><label><input type="radio" name="r31" value="NG">NG</label></td><td><textarea aria-label="31 備考/NG"></textarea></td></tr>
+      <tr><td>32</td><td>検索条件が空のとき一覧を全件表示する</td><td>キーワード空欄、ジャンルすべて</td><td>初期5件と追加3件の合計8件が一覧に表示されます。</td><td class="result"><label><input type="radio" name="r32" value="OK">OK</label><label><input type="radio" name="r32" value="NG">NG</label></td><td><textarea aria-label="32 備考/NG"></textarea></td></tr>
+      <tr><td>33</td><td>1件目の編集画面に現在の値が入っている</td><td>SPEC-テスト課題Aの「編集」</td><td>やること・メモ・ジャンル・優先度・期限・完了欄が現在の値を入れた状態で表示されます。</td><td class="result"><label><input type="radio" name="r33" value="OK">OK</label><label><input type="radio" name="r33" value="NG">NG</label></td><td><textarea aria-label="33 備考/NG"></textarea></td></tr>
+      <tr><td>34</td><td>編集画面で必須欄の空欄を止める</td><td>やることを空欄にして「確認する」</td><td>編集画面に留まり、やること欄の下に「やることを入力してください」と表示されます。</td><td class="result"><label><input type="radio" name="r34" value="OK">OK</label><label><input type="radio" name="r34" value="NG">NG</label></td><td><textarea aria-label="34 備考/NG"></textarea></td></tr>
+      <tr><td>35</td><td>編集画面で文字数超過を止める</td><td>メモを256文字にして「確認する」</td><td>編集画面に留まり、メモ欄の下に「メモは255文字以内で入力してください」と表示されます。</td><td class="result"><label><input type="radio" name="r35" value="OK">OK</label><label><input type="radio" name="r35" value="NG">NG</label></td><td><textarea aria-label="35 備考/NG"></textarea></td></tr>
+      <tr><td>36</td><td>編集の確認画面から書き直す</td><td>1件目のやることをSPEC-編集後Aに変えて確認し「書き直す」</td><td>編集画面に戻り、SPEC-編集後Aが入力欄に残っています。</td><td class="result"><label><input type="radio" name="r36" value="OK">OK</label><label><input type="radio" name="r36" value="NG">NG</label></td><td><textarea aria-label="36 備考/NG"></textarea></td></tr>
+      <tr><td>37</td><td>編集内容と完了状態を保存する</td><td>やることSPEC-編集後A、完了チェックを入れて「保存する」</td><td>一覧で変更後の名前と完了が表示され、上部に「保存しました」と表示されます。</td><td class="result"><label><input type="radio" name="r37" value="OK">OK</label><label><input type="radio" name="r37" value="NG">NG</label></td><td><textarea aria-label="37 備考/NG"></textarea></td></tr>
+      <tr><td>38</td><td>A5M2で編集後の値と更新日時を確認する</td><td>SPEC-編集後Aの行を参照</td><td>A5M2で編集した値とcompletedの変更が保存され、updated_atに編集時の日時が入っています。</td><td class="result"><label><input type="radio" name="r38" value="OK">OK</label><label><input type="radio" name="r38" value="NG">NG</label></td><td><textarea aria-label="38 備考/NG"></textarea></td></tr>
+      <tr><td>39</td><td>存在しない番号の編集画面を開く</td><td>実施時にA5M2で未使用と確認した番号の /todos/{id}/edit</td><td>/todos の一覧に戻り、上部に「見つかりませんでした」と表示されます。</td><td class="result"><label><input type="radio" name="r39" value="OK">OK</label><label><input type="radio" name="r39" value="NG">NG</label></td><td><textarea aria-label="39 備考/NG"></textarea></td></tr>
+      <tr><td>40</td><td>2件目の削除確認に対象の情報が表示される</td><td>SPEC-テスト応募Bの「削除」</td><td>削除確認画面に対象のやること・ジャンル・期限が表示され、「消す」と「やめる」があります。</td><td class="result"><label><input type="radio" name="r40" value="OK">OK</label><label><input type="radio" name="r40" value="NG">NG</label></td><td><textarea aria-label="40 備考/NG"></textarea></td></tr>
+      <tr><td>41</td><td>削除確認の「やめる」で一覧へ戻る</td><td>「やめる」</td><td>/todos の一覧にSPEC-テスト応募Bが残って表示されます。</td><td class="result"><label><input type="radio" name="r41" value="OK">OK</label><label><input type="radio" name="r41" value="NG">NG</label></td><td><textarea aria-label="41 備考/NG"></textarea></td></tr>
+      <tr><td>42</td><td>存在しない番号の削除確認画面を開く</td><td>実施時にA5M2で未使用と確認した番号の /todos/{id}/delete</td><td>/todos の一覧に戻り、上部に「見つかりませんでした」と表示されます。</td><td class="result"><label><input type="radio" name="r42" value="OK">OK</label><label><input type="radio" name="r42" value="NG">NG</label></td><td><textarea aria-label="42 備考/NG"></textarea></td></tr>
+      <tr><td>43</td><td>2件目を削除する</td><td>SPEC-テスト応募Bの削除確認で「消す」</td><td>一覧にSPEC-テスト応募Bが表示されず、上部に「削除しました」と表示されます。</td><td class="result"><label><input type="radio" name="r43" value="OK">OK</label><label><input type="radio" name="r43" value="NG">NG</label></td><td><textarea aria-label="43 備考/NG"></textarea></td></tr>
+      <tr><td>44</td><td>A5M2で削除後に対象行がないことを確認する</td><td>SPEC-テスト応募Bの行を検索</td><td>A5M2のtodosテーブルにSPEC-テスト応募Bの行が表示されません。</td><td class="result"><label><input type="radio" name="r44" value="OK">OK</label><label><input type="radio" name="r44" value="NG">NG</label></td><td><textarea aria-label="44 備考/NG"></textarea></td></tr>
+      <tr><td>45</td><td>登録・編集・削除の操作ログを確認する</td><td>アプリのログを参照</td><td>登録・編集・削除ごとに操作名と対象idが1行ずつ記録され、titleとdetailの中身は記録されません。</td><td class="result"><label><input type="radio" name="r45" value="OK">OK</label><label><input type="radio" name="r45" value="NG">NG</label></td><td><textarea aria-label="45 備考/NG"></textarea></td></tr>
+      <tr><td>46</td><td>最後のテスト用レコードをアプリから削除する</td><td>SPEC-テスト資格Cの削除確認で「消す」</td><td>一覧にSPEC-テスト資格Cが表示されず、上部に「削除しました」と表示されます。</td><td class="result"><label><input type="radio" name="r46" value="OK">OK</label><label><input type="radio" name="r46" value="NG">NG</label></td><td><textarea aria-label="46 備考/NG"></textarea></td></tr>
+      <tr><td>47</td><td>終了時の登録件数をA5M2で確認する</td><td>todosテーブルの行数を確認</td><td>A5M2のtodosテーブルが開始前と同じ5行になっています。</td><td class="result"><label><input type="radio" name="r47" value="OK">OK</label><label><input type="radio" name="r47" value="NG">NG</label></td><td><textarea aria-label="47 備考/NG"></textarea></td></tr>
+    </tbody>
+  </table>
+  <script>
+    function fitTextareas() {
+      document.querySelectorAll('textarea').forEach(function (area) {
+        area.style.height = 'auto';
+        area.style.height = area.scrollHeight + 'px';
+      });
+    }
+    document.querySelectorAll('textarea').forEach(function (area) {
+      area.addEventListener('input', fitTextareas);
+    });
+    window.addEventListener('beforeprint', fitTextareas);
+    fitTextareas();
+  </script>
+</body>
+</html>
