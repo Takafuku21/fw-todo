@@ -37,7 +37,7 @@
 
         <p th:if="${#lists.isEmpty(todos)}">まだ1件も登録されていません</p>
 
-        <p><a class="link" th:href="@{/todos/new}">新規登録</a></p>
+        <p><a class="link" th:href="@{/todos/new}">新規登録</a> <a class="link" th:href="@{/calendar}">カレンダーで見る</a></p>
 
         <table class="todo-table" th:unless="${#lists.isEmpty(todos)}">
             <thead>

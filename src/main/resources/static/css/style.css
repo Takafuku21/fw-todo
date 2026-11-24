@@ -117,3 +117,45 @@ body {
     color: #334155;
     text-decoration: underline;
 }
+
+.calendar-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.calendar-navigation-months,
+.calendar-navigation-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.calendar-todo-link {
+    display: block;
+}
+
+.calendar-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.calendar-table th,
+.calendar-table td {
+    border: 1px solid #94a3b8;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.calendar-table th {
+    background: #f1f5f9;
+}
+
+.calendar-day {
+    height: 96px;
+}
+
+.calendar-day.is-empty {
+    background: #f8fafc;
+}
