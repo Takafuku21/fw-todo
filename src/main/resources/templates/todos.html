@@ -51,7 +51,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="todo : ${todos}">
+                <tr th:each="todo : ${todos}"
+                    th:attr="data-due-date=${todo.dueDate},data-completed=${todo.completed}">
                     <td th:text="${todo.title}">やること</td>
                     <td th:text="${todo.category}">ジャンル</td>
                     <td th:text="${todo.priority == 1 ? '高' : (todo.priority == 2 ? '中' : '低')}">優先度</td>
@@ -61,7 +62,23 @@
                 </tr>
             </tbody>
         </table>
+        <nav class="pagination" aria-label="ページ移動" th:if="${totalPages > 1}">
+            <a class="pagination-link" th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
+                th:href="@{/todos(page=${pageNumber}, keyword=${keyword}, category=${category == 'すべて' ? null : category}, order=${order})}"
+                th:text="${pageNumber}"
+                th:classappend="${pageNumber == currentPage ? ' is-current' : ''}"
+                th:attr="aria-current=${pageNumber == currentPage ? 'page' : null}">1</a>
+        </nav>
     </div>
+    <script>
+        const now = new Date();
+        const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+        document.querySelectorAll(".todo-table tr[data-due-date]").forEach(row => {
+            if (row.dataset.dueDate < today && row.dataset.completed !== "true") {
+                row.classList.add("is-overdue");
+            }
+        });
+    </script>
 </body>
 
 </html>

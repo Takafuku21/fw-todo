@@ -3,16 +3,19 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.todoapp.TodoMapper">
+    <sql id="searchConditions">
+        <if test="keyword != null and keyword != ''">
+            AND title LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="category != null and category != ''">
+            AND category = #{category}
+        </if>
+    </sql>
     <select id="search" resultType="com.example.todoapp.Todo">
         SELECT id, title, detail, category, priority, due_date, completed, created_at, updated_at
         FROM todos
         <where>
-            <if test="keyword != null and keyword != ''">
-                AND title LIKE CONCAT('%', #{keyword}, '%')
-            </if>
-            <if test="category != null and category != ''">
-                AND category = #{category}
-            </if>
+            <include refid="searchConditions" />
             <if test="from != null or to != null">
                 AND due_date IS NOT NULL
             </if>
@@ -28,6 +31,26 @@
             <when test="order == 'desc'">DESC</when>
             <otherwise>ASC</otherwise>
         </choose>
+    </select>
+    <select id="searchPage" resultType="com.example.todoapp.Todo">
+        SELECT id, title, detail, category, priority, due_date, completed, created_at, updated_at
+        FROM todos
+        <where>
+            <include refid="searchConditions" />
+        </where>
+        ORDER BY due_date
+        <choose>
+            <when test="order == 'desc'">DESC</when>
+            <otherwise>ASC</otherwise>
+        </choose>, id ASC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+    <select id="countSearch" resultType="int">
+        SELECT COUNT(*)
+        FROM todos
+        <where>
+            <include refid="searchConditions" />
+        </where>
     </select>
     <select id="findById" parameterType="long" resultType="com.example.todoapp.Todo">
         SELECT id, title, detail, category, priority, due_date, completed, created_at, updated_at

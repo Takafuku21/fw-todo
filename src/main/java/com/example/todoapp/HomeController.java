@@ -16,6 +16,8 @@ import java.util.List;
 @Controller
 public class HomeController {
 
+    private static final int PAGE_SIZE = 10;
+
     private final TodoService todoService;
 
     public HomeController(TodoService todoService) {
@@ -31,18 +33,25 @@ public class HomeController {
     @GetMapping("/todos")
     public String listTodos(@RequestParam(required = false) String keyword,
             @RequestParam(required = false) String category,
-            @RequestParam(required = false, defaultValue = "asc") String order, Model model) {
+            @RequestParam(required = false, defaultValue = "asc") String order,
+            @RequestParam(required = false, defaultValue = "1") int page, Model model) {
         if (category == null || category.isEmpty() || "すべて".equals(category)) {
             category = null;
         }
         if (!"desc".equals(order)) {
             order = "asc";
         }
-        List<Todo> todos = todoService.search(keyword, category, order);
+        int totalCount = todoService.countSearch(keyword, category);
+        int totalPages = (totalCount + PAGE_SIZE - 1) / PAGE_SIZE;
+        int currentPage = totalPages == 0 ? 1 : Math.max(1, Math.min(page, totalPages));
+        int offset = (currentPage - 1) * PAGE_SIZE;
+        List<Todo> todos = todoService.searchPage(keyword, category, order, PAGE_SIZE, offset);
         model.addAttribute("todos", todos);
         model.addAttribute("keyword", keyword);
         model.addAttribute("category", category == null ? "すべて" : category);
         model.addAttribute("order", order);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
         return "todos";
     }
 
