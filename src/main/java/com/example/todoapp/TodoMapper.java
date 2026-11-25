@@ -12,9 +12,11 @@ public interface TodoMapper {
             @Param("order") String order, @Param("from") LocalDate from, @Param("to") LocalDate to);
 
     List<Todo> searchPage(@Param("keyword") String keyword, @Param("category") String category,
-            @Param("order") String order, @Param("limit") int limit, @Param("offset") int offset);
+            @Param("order") String order, @Param("limit") int limit, @Param("offset") int offset,
+            @Param("trash") boolean trash);
 
-    int countSearch(@Param("keyword") String keyword, @Param("category") String category);
+    int countSearch(@Param("keyword") String keyword, @Param("category") String category,
+            @Param("trash") boolean trash);
 
     Todo findById(Long id);
 
@@ -23,4 +25,8 @@ public interface TodoMapper {
     int update(Todo todo);
 
     int deleteById(Long id);
+
+    int restoreById(Long id);
+
+    int togglePinned(Long id);
 }

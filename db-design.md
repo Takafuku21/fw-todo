@@ -28,6 +28,8 @@
 | `priority` | `INT` | 不可 | `2` | 優先度。`1`＝高、`2`＝中、`3`＝低。登録時は中。 |
 | `due_date` | `DATE` | 可 | なし | 期限。未設定可。 |
 | `completed` | `BOOLEAN` | 不可 | `0` | 完了状態。`0`＝未完了、`1`＝完了。 |
+| `pinned` | `BOOLEAN` | 不可 | `0` | 一覧の上部に表示する印。既定は印なし。 |
+| `deleted_at` | `DATETIME` | 可 | なし | ごみ箱に移した日時。`NULL`なら通常のデータ。 |
 | `created_at` | `DATETIME` | 不可 | 登録時の日時を自動設定 | 登録日時。利用者は入力しない。 |
 | `updated_at` | `DATETIME` | 不可 | 登録時に自動設定し、更新時も自動更新 | 最終更新日時。利用者は入力しない。 |
 
@@ -90,6 +92,8 @@ CREATE TABLE todos (
     priority INT NOT NULL DEFAULT 2,
     due_date DATE NULL,
     completed BOOLEAN NOT NULL DEFAULT FALSE,
+    pinned BOOLEAN NOT NULL DEFAULT FALSE,
+    deleted_at DATETIME NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,

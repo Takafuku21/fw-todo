@@ -12,7 +12,7 @@
         </if>
     </sql>
     <select id="search" resultType="com.example.todoapp.Todo">
-        SELECT id, title, detail, category, priority, due_date, completed, created_at, updated_at
+        SELECT id, title, detail, category, priority, due_date, completed, pinned, deleted_at, created_at, updated_at
         FROM todos
         <where>
             <include refid="searchConditions" />
@@ -25,24 +25,29 @@
             <if test="to != null">
                 AND due_date &lt;= #{to}
             </if>
+            AND deleted_at IS NULL
         </where>
-        ORDER BY due_date
+        ORDER BY pinned DESC, due_date
         <choose>
             <when test="order == 'desc'">DESC</when>
             <otherwise>ASC</otherwise>
         </choose>
     </select>
     <select id="searchPage" resultType="com.example.todoapp.Todo">
-        SELECT id, title, detail, category, priority, due_date, completed, created_at, updated_at
+        SELECT id, title, detail, category, priority, due_date, completed, pinned, deleted_at, created_at, updated_at
         FROM todos
         <where>
             <include refid="searchConditions" />
+            <choose>
+                <when test="trash">AND deleted_at IS NOT NULL</when>
+                <otherwise>AND deleted_at IS NULL</otherwise>
+            </choose>
         </where>
-        ORDER BY due_date
+        ORDER BY pinned DESC, due_date
         <choose>
             <when test="order == 'desc'">DESC</when>
             <otherwise>ASC</otherwise>
-        </choose>, id ASC
+        </choose>
         LIMIT #{limit} OFFSET #{offset}
     </select>
     <select id="countSearch" resultType="int">
@@ -50,12 +55,17 @@
         FROM todos
         <where>
             <include refid="searchConditions" />
+            <choose>
+                <when test="trash">AND deleted_at IS NOT NULL</when>
+                <otherwise>AND deleted_at IS NULL</otherwise>
+            </choose>
         </where>
     </select>
     <select id="findById" parameterType="long" resultType="com.example.todoapp.Todo">
-        SELECT id, title, detail, category, priority, due_date, completed, created_at, updated_at
+        SELECT id, title, detail, category, priority, due_date, completed, pinned, deleted_at, created_at, updated_at
         FROM todos
         WHERE id = #{id}
+            AND deleted_at IS NULL
     </select>
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO todos (title, detail, category, priority, due_date, completed)
@@ -70,9 +80,24 @@
             due_date = #{dueDate},
             completed = #{completed}
         WHERE id = #{id}
+            AND deleted_at IS NULL
     </update>
-    <delete id="deleteById" parameterType="long">
-        DELETE FROM todos
+    <update id="deleteById" parameterType="long">
+        UPDATE todos
+        SET deleted_at = CURRENT_TIMESTAMP
         WHERE id = #{id}
-    </delete>
+            AND deleted_at IS NULL
+    </update>
+    <update id="restoreById" parameterType="long">
+        UPDATE todos
+        SET deleted_at = NULL
+        WHERE id = #{id}
+            AND deleted_at IS NOT NULL
+    </update>
+    <update id="togglePinned" parameterType="long">
+        UPDATE todos
+        SET pinned = NOT pinned
+        WHERE id = #{id}
+            AND deleted_at IS NULL
+    </update>
 </mapper>

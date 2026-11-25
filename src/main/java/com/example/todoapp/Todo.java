@@ -31,6 +31,8 @@ public class Todo {
     private LocalDate dueDate;
 
     private Boolean completed;
+    private Boolean pinned;
+    private LocalDateTime deletedAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
