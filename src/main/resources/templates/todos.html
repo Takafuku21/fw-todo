@@ -42,6 +42,7 @@
             <a class="link" th:if="${!trash}" th:href="@{/todos/new}">新規登録</a>
             <a class="link" th:if="${!trash}" th:href="@{/calendar}">カレンダーで見る</a>
             <a class="link" th:if="${!trash}" th:href="@{/todos(trash=1)}">ごみ箱を見る</a>
+            <a class="link" th:if="${!trash}" th:href="@{/api/todos.csv(keyword=${keyword}, category=${category == 'すべて' ? null : category}, order=${order})}">CSVを書き出す</a>
             <a class="link" th:if="${trash}" th:href="@{/todos}">一覧に戻る</a>
         </p>
 
