@@ -10,18 +10,23 @@
 
 <body>
     <div class="container">
-        <h1 class="page-title" th:text="|${year}年${month}月|">年月</h1>
+        <h1 class="page-title" th:if="${view == 'month'}" th:text="|${year}年${month}月|">年月</h1>
+        <h1 class="page-title" th:if="${view == 'week'}" th:text="|${firstDay}〜${lastDay}|">週</h1>
         <nav class="calendar-navigation" aria-label="月の移動">
             <div class="calendar-navigation-months">
-                <a class="link" th:href="@{/calendar(year=${previousYear}, month=${previousMonth})}">前の月</a>
-                <a class="link" th:href="@{/calendar(year=${nextYear}, month=${nextMonth})}">次の月</a>
+                <a class="link" th:if="${view == 'month'}" th:href="@{/calendar(year=${previousYear}, month=${previousMonth})}">前の月</a>
+                <a class="link" th:if="${view == 'month'}" th:href="@{/calendar(year=${nextYear}, month=${nextMonth})}">次の月</a>
+                <a class="link" th:if="${view == 'week'}" th:href="@{/calendar(view='week', date=${previousWeekStart})}">前の週</a>
+                <a class="link" th:if="${view == 'week'}" th:href="@{/calendar(view='week', date=${nextWeekStart})}">次の週</a>
             </div>
             <div class="calendar-navigation-actions">
+                <a class="link" th:if="${view == 'month'}" th:href="@{/calendar(view='week', date=${firstDay})}">週表示</a>
+                <a class="link" th:if="${view == 'week'}" th:href="@{/calendar(year=${year}, month=${month})}">月表示</a>
                 <a class="link" th:href="@{/todos}">表で見る</a>
                 <a class="link" th:href="@{/todos/new}">新規登録</a>
             </div>
         </nav>
-        <table class="calendar-table" th:attr="data-from=${firstDay},data-to=${lastDay}">
+        <table class="calendar-table" th:attr="data-from=${firstDay},data-to=${lastDay},data-view=${view}">
             <thead>
                 <tr>
                     <th scope="col">日</th>
@@ -58,11 +63,13 @@
             const todos = await res.json();
 
             const dayCells = calendar.querySelectorAll("td[data-date]");
+            const weeklyView = calendar.dataset.view === "week";
             const now = new Date();
             const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
             dayCells.forEach(cell => {
                 const cellTodos = todos.filter(todo => todo.dueDate === cell.dataset.date);
-                cellTodos.slice(0, 3).forEach(todo => {
+                const visibleTodos = weeklyView ? cellTodos : cellTodos.slice(0, 3);
+                visibleTodos.forEach(todo => {
                     const name = document.createElement("a");
                     name.className = "link calendar-todo-link";
                     name.href = `/todos/${todo.id}/edit`;
@@ -72,7 +79,7 @@
                     }
                     cell.append(name);
                 });
-                if (cellTodos.length > 3) {
+                if (!weeklyView && cellTodos.length > 3) {
                     const more = document.createElement("div");
                     more.textContent = `ほか ${cellTodos.length - 3}件`;
                     cell.append(more);
